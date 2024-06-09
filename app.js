@@ -1,6 +1,15 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const pageRoute = require("./routes/pageRoute");
+const courseRoute = require("./routes/courseRoute");
 
 const app = express();
+
+//connect db
+mongoose.connect("mongodb://127.0.0.1:27017/smartedu-db").then(() => {
+  console.log("DB Connected");
+});
 
 const port = 3000;
 
@@ -8,14 +17,12 @@ const port = 3000;
 app.set("view engine", "ejs");
 
 //middleware
-app.use(express.static("public"));
+app.use(express.static("public")); //for css files
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 //routes
-app.get("/", (req, res) => {
-  res.status(200).render("index", { page_name: "index" });
-});
-app.get("/about", (req, res) => {
-  res.status(200).render("about", { page_name: "about" });
-});
+app.use("/", pageRoute); //route işlemini başka bir dosyadan buraya taşıdık
+app.use("/courses", courseRoute); //route işlemini başka bir dosyadan buraya taşıdık
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
