@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const pageRoute = require("./routes/pageRoute");
 const courseRoute = require("./routes/courseRoute");
+const categoryRoute = require("./routes/categoryRoute");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 //routes
 app.use("/", pageRoute); //route işlemini başka bir dosyadan buraya taşıdık
 app.use("/courses", courseRoute); //route işlemini başka bir dosyadan buraya taşıdık
+app.use("/categories", categoryRoute); //route işlemini başka bir dosyadan buraya taşıdık
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
