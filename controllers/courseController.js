@@ -41,7 +41,9 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourse = async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug }); //slug'ı eşleşen course'u bulduk
+    const categories = await Category.find(); //tüm kategorileri bulduk
     res.status(200).render("course", {
+      categories, //bulunan kategorileri course.ejs sayfasına gönderdik
       course, //bulunan course'u course.ejs sayfasına gönderdik
       page_name: "courses",
     });
