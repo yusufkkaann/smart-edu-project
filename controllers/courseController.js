@@ -4,10 +4,7 @@ const Category = require("../models/Category");
 exports.createCourse = async (req, res) => {
   try {
     const course = await Course.create(req.body); //Course modelinden yeni bir course oluşturduk
-    res.status(201).json({
-      status: "success",
-      course, //oluşturulan course'u json formatında döndük
-    });
+    res.status(201).redirect("/courses"); //oluşturulan course'u courses sayfasına yönlendirdik
   } catch (error) {
     res.status(400).json({
       status: "fail",
@@ -24,7 +21,7 @@ exports.getAllCourses = async (req, res) => {
       filter = { category: category._id }; //eğer categorySlug varsa filter objesine category id'sini ekledik
     }
 
-    const courses = await Course.find(filter); //tüm course'ları bulduk
+    const courses = await Course.find(filter).sort("-createdAt"); //tüm course'ları bulduk
     const categories = await Category.find(); //tüm kategorileri bulduk
     res.status(200).render("courses", {
       courses, //bulunan course'ları courses.ejs sayfasına gönderdik
